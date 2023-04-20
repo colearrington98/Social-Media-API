@@ -1,6 +1,7 @@
-const mongoose = require('mongoose');
+const { Schema, Model, } = require('mongoose'); // Import mongoose
 
-const userSchema = new mongoose.Schema({
+
+const userSchema = new Schema({ // Create a new schema
     username: {
         type: String,
         required: true,
@@ -21,7 +22,7 @@ const userSchema = new mongoose.Schema({
         trim: true,
         minlength: 3
     },
-    thoughts : [{
+    thought : [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Thought'
     }],
@@ -37,11 +38,11 @@ const userSchema = new mongoose.Schema({
     id: false
 });
 
-userSchema.virtual('friendCount').get(function() {
+userSchema.virtual('friendCount').get(function() { // Create a virtual called friendCount that retrieves the length of the user's friends array field on query.
     return this.friends.length;
 });
 
-const User = mongoose.model('User', userSchema);
+const User = model('user', userSchema); // Create a User model using the UserSchema
 
 module.exports = User;
 
