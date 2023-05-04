@@ -1,34 +1,47 @@
 const mongoose = require('mongoose');
-const { User, Thought } = require('../models');
+const { User, Thought } = require('./models');
 const { userData, thoughtData } = require('./data');
 
-// Connect to MongoDB database using Mongoose and the MongoDB URI stored in the .env file using the dotenv package. 
+// Connect to MongoDB database using Mongoose and the MongoDB URI stored in the .env file using the dotenv package.
 mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/social-network-api', {
-  useFindAndModify: false,
   useNewUrlParser: true,
-  useUnifiedTopology: true
+  useUnifiedTopology: true,
+  useCreateIndex: true,
+  useFindAndModify: false
 });
 
 // Seed the database with the user and thought data from the data folder.
 const seedDatabase = async () => {
   try {
-    await mongoose.connection.dropDatabase();
+    // Clear out the database before seeding it with new data.
+    await User.deleteMany({});
+    await Thought.deleteMany({});
 
+    // Create users and thoughts in the database.
     const createdUsers = await User.create(userData);
+    const createdThoughts = await Thought.create(thoughtData);
 
-    for (let i = 0; i < thoughtData.length; i++) {
-      const { _id } = createdUsers[i % createdUsers.length];
-      thoughtData[i].userId = _id;
-      await Thought.create(thoughtData[i]);
+    // Associate each thought with a user.
+    for (let i = 0; i < createdThoughts.length; i++) {
+      const thought = createdThoughts[i];
+      const userId = createdUsers[Math.floor(Math.random() * createdUsers.length)]._id;
+      thought.userId = userId;
+      await thought.save();
     }
 
-    // Log success message to the console and exit the process.
     console.log('Database seeded successfully!');
-    process.exit(0);
   } catch (err) {
     console.error(err);
-    process.exit(1);
+  } finally {
+    mongoose.disconnect();
   }
 };
 
 seedDatabase();
+
+
+  
+
+
+
+  

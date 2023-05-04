@@ -1,4 +1,5 @@
-const { Schema, Model, } = require('mongoose'); // Import mongoose
+const { Schema, model } = require('mongoose'); // Import mongoose
+
 
 const thoughtSchema = new Schema({ // Create a new schema
     thoughtText: {

@@ -1,4 +1,4 @@
-const {Schema, Model,} = require('mongoose'); // Import mongoose
+const {Schema, model } = require('mongoose'); // Import mongoose
 
 const reactionSchema = new Schema({ // Create a new schema
     reactionId: {

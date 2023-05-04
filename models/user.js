@@ -1,4 +1,4 @@
-const { Schema, Model, } = require('mongoose'); // Import mongoose
+const { Schema, model } = require('mongoose'); // Import mongoose
 
 
 const userSchema = new Schema({ // Create a new schema
@@ -23,11 +23,11 @@ const userSchema = new Schema({ // Create a new schema
         minlength: 3
     },
     thought : [{
-        type: mongoose.Schema.Types.ObjectId,
+        type: Schema.Types.ObjectId,
         ref: 'Thought'
     }],
     friends : [{
-        type: mongoose.Schema.Types.ObjectId,
+        type: Schema.Types.ObjectId,
         ref: 'User'
     }]
 }, {
