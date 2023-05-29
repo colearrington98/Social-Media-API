@@ -1,13 +1,11 @@
 const mongoose = require('mongoose');
-const { User, Thought } = require('./models');
+const { User, Thought } = require('../models');
 const { userData, thoughtData } = require('./data');
 
 // Connect to MongoDB database using Mongoose and the MongoDB URI stored in the .env file using the dotenv package.
 mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/social-network-api', {
   useNewUrlParser: true,
   useUnifiedTopology: true,
-  useCreateIndex: true,
-  useFindAndModify: false
 });
 
 // Seed the database with the user and thought data from the data folder.
@@ -38,6 +36,8 @@ const seedDatabase = async () => {
 };
 
 seedDatabase();
+
+
 
 
   
